@@ -5,4 +5,5 @@ export const Routes: {
 } = {
   fileUpload: { url: "", method: "post" },
   getProfile: { url: "", method: "post" },
+  login: { url: "", method: "post" },
 };

@@ -5,7 +5,6 @@ import * as Providers from "src/app/providers";
 
 // File stoarge access
 export const useFileUpload = () => {
-  const { Request } = Api.Server.serverRequest();
   const [link, setLink] = React.useState<string>();
   const [loading, setLoading] = React.useState(false);
 
@@ -14,10 +13,10 @@ export const useFileUpload = () => {
 
   // upload file to server
   const uploadToServer = async (file: File) => {
+    setLoading(true);
     var bodyData = new FormData();
     bodyData.append("file", file);
-    setLoading(true);
-    return await Request("fileUpload", bodyData)
+    return await Api.Server.Request("fileUpload", bodyData)
       .then((res) => {
         setLink(res.data.imageURL);
         return res.data.imageURL;
@@ -27,11 +26,13 @@ export const useFileUpload = () => {
 
   // const upload to firestore
   const uploadToFirestore = async (image: string, path: string) => {
+    setLoading(true);
     const secondaryStorage = FirebaseStorage.getStorage(Providers.secondaryApp);
     const ref = FirebaseStorage.ref(secondaryStorage, path);
     const result = await FirebaseStorage.uploadString(ref, image, "data_url");
     const imageURL = await FirebaseStorage.getDownloadURL(result.ref);
     setLink(imageURL);
+    setLoading(false);
     return imageURL;
   };
 

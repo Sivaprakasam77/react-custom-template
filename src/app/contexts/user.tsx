@@ -9,10 +9,9 @@ export const UserContext = React.createContext<userContext.User | undefined>(
 
 // User details Contexts provider and detail store
 export const UserProvider = ({ children }: children) => {
-  const { Request, useRequest } = Api.Server.serverRequest();
   const [state, updateState] = React.useState(false);
   const [country, setCountry] = React.useState("");
-  const { data: user, isFetching: loading } = useRequest(
+  const { data: user, isFetching: loading } = Api.Server.useRequest(
     [window.accessToken || "", state as unknown as string],
     "getProfile"
   );
@@ -22,7 +21,7 @@ export const UserProvider = ({ children }: children) => {
 
   // Get User current country
   React.useEffect(() => {
-    Request({
+    Api.Server.Request({
       baseURL: Constants.API_CONFIG.geoLocationAPI,
       url: "/geo/location",
       method: "get",
