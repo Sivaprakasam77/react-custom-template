@@ -1,10 +1,12 @@
 import * as Mui from "@mui/material";
 import * as ReactError from "react-error-boundary";
 
+// Error boundary provider
 export const ErrorBoundaryProider = (props: children) => (
   <ReactError.ErrorBoundary FallbackComponent={ErrorHandler} {...props} />
 );
 
+// Uncaught error handler
 const ErrorHandler = ({
   error,
   resetErrorBoundary,
@@ -14,7 +16,7 @@ const ErrorHandler = ({
     alignItems="center"
     component={Mui.Container}
     maxWidth="sm"
-    sx={{ height: "100vh", color: "#fff" }}
+    sx={{ height: "100vh" }}
   >
     <Mui.Stack component={Mui.CardContent} alignItems="center" spacing={2}>
       <Mui.Typography variant="h4" color="inherit">

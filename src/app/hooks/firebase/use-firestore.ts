@@ -2,13 +2,20 @@ import * as FirebaseFirestore from "firebase/firestore";
 import React from "react";
 import * as Providers from "src/app/providers";
 
+/* Snapshot lisenter for collection and collectionGroup
+   ####################################################
+   PARAMS
+   slient = to disable default messages after success
+*/
 export const useFirestore = <T>(silent?: boolean) => {
   const [loading, setLoading] = React.useState(false);
   const handler = Providers.useCustomHandler;
   const firestore = FirebaseFirestore.getFirestore(Providers.secondaryApp);
 
+  // You can modify your path based on development and production
   const pathModifier = (text: string) => text;
 
+  // Get document details
   const get = (collectionName: string, id: string) =>
     FirebaseFirestore.getDoc(
       FirebaseFirestore.doc(
@@ -17,6 +24,7 @@ export const useFirestore = <T>(silent?: boolean) => {
       )
     );
 
+  // Add new document to collection
   const add = async (collectionName: string, data: T) => {
     import.meta.env.MODE === "development" &&
       console.info(`${collectionName} input`, data);
@@ -51,6 +59,7 @@ export const useFirestore = <T>(silent?: boolean) => {
     return result;
   };
 
+  // Set document detail
   const set = async (collectionName: string, docId: string, data: any) => {
     import.meta.env.MODE === "development" &&
       console.info(`${collectionName}/${docId} input`, data);
@@ -85,6 +94,7 @@ export const useFirestore = <T>(silent?: boolean) => {
     return result;
   };
 
+  // Update document detail
   const update = async (collectionName: string, docId: string, data: any) => {
     import.meta.env.MODE === "development" &&
       console.info(`${collectionName}/${docId} input`, data);

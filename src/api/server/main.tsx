@@ -22,6 +22,7 @@ export const Main = ({ children }: children) => {
 // API config clients
 const formOptions: string[] = [];
 
+// initialize client with baseURL
 const client = Axios.default.create({
   baseURL: `${Constants.API_CONFIG.baseURL}`,
 });

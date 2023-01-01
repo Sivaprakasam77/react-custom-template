@@ -14,6 +14,10 @@ export const GlobalLoader = ({ sx, ...props }: Mui.StackProps) => (
       left: 0,
       p: 5,
       zIndex: (theme) => theme.zIndex.appBar + 1,
+      "& .wave": {
+        bgcolor: (theme) =>
+          `linear-gradient(45deg, ${theme.palette.primary.main}, ${theme.palette.primary.dark})`,
+      },
       ...sx,
     }}
   >

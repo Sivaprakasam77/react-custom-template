@@ -1,5 +1,6 @@
 import * as React from "react";
 
+// It's a browser Indexed DB storage access
 export const useIndexedDB = <T>(
   DBName: string,
   tableName: string,

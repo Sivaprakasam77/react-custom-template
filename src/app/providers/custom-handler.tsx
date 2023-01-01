@@ -1,6 +1,7 @@
 import * as Mui from "@mui/material";
 import * as ReactDOM from "react-dom";
 
+// Custom message provider
 export const customHandlingProvider = ({ children }: children) => (
   <Mui.Box>
     <Mui.Box id="cutom-handle-boundary" />
@@ -8,6 +9,7 @@ export const customHandlingProvider = ({ children }: children) => (
   </Mui.Box>
 );
 
+// Message display design
 const SnackBar = ({ message, variant }: customHandler.props) => {
   const handleClose = () =>
     ReactDOM.render(<></>, document.getElementById("cutom-handle-boundary"));
@@ -25,6 +27,7 @@ const SnackBar = ({ message, variant }: customHandler.props) => {
   );
 };
 
+// Use Custom handler to passs message
 export const useCustomHandler = (props: customHandler.props) =>
   ReactDOM.render(
     <SnackBar {...props} />,

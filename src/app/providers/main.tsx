@@ -2,6 +2,7 @@ import * as Api from "src/api";
 import * as Contexts from "src/app/contexts";
 import * as Providers from "src/app/providers";
 
+// initialize app providers
 export const Main = ({ children }: children) => (
   <Providers.ErrorBoundaryProider>
     <Providers.customHandlingProvider>

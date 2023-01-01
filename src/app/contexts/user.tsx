@@ -2,10 +2,12 @@ import React from "react";
 import * as Api from "src/api";
 import * as Constants from "src/constants";
 
+// User detail storage contexts
 export const UserContext = React.createContext<userContext.User | undefined>(
   undefined
 );
 
+// User details Contexts provider and detail store
 export const UserProvider = ({ children }: children) => {
   const { Request, useRequest } = Api.Server.serverRequest();
   const [state, updateState] = React.useState(false);
@@ -15,8 +17,10 @@ export const UserProvider = ({ children }: children) => {
     "getProfile"
   );
 
+  // Retrigger GetProfile API
   const update = () => updateState(!state);
 
+  // Get User current country
   React.useEffect(() => {
     Request({
       baseURL: Constants.API_CONFIG.geoLocationAPI,
