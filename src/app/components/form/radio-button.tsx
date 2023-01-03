@@ -40,13 +40,13 @@ export const MuiRadioButton = ({
             onClick={() => handleValue(value)}
           />
         ))}
-        <Mui.FormHelperText
-          error={error}
-          sx={{ display: error ? "flex" : "none" }}
-        >
-          <>{error && errors[field.name]}</>
-        </Mui.FormHelperText>
       </Mui.Stack>
+      <Mui.FormHelperText
+        error={error}
+        sx={{ display: error ? "flex" : "none" }}
+      >
+        <>{error && errors[field.name]}</>
+      </Mui.FormHelperText>
     </Components.Form.FieldLabel>
   );
 };

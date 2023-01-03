@@ -55,22 +55,24 @@ export const Request = (
       ...headers,
     },
     data,
-  }).then((res) => {
-    // Development console logs
-    import.meta.env.MODE === "development" &&
-      console.info(
-        `${options} Response Timing ${performance.now() - startAt}ms`,
-        res.data
-      );
+  })
+    .then((res) => {
+      // Development console logs
+      import.meta.env.MODE === "development" &&
+        console.info(
+          `${options} Response Timing ${performance.now() - startAt}ms`,
+          res.data
+        );
 
-    // Store access token for Login option
-    if (typeof options === "string" && options.includes("login")) {
-      window.accessToken = res.data.accessToken;
-    }
+      // Store access token for Login option
+      if (typeof options === "string" && options.includes("login")) {
+        window.accessToken = res.data.accessToken;
+      }
 
-    // Retrun Reponse
-    return res.data;
-  });
+      // Retrun Reponse
+      return res.data;
+    })
+    .catch((e) => e.response.data);
 };
 
 // Query API call
