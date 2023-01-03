@@ -4,11 +4,11 @@ import * as NumberFormat from "react-number-format";
 import React from "react";
 import * as Components from "src/app/components";
 
-export const AmountField = (props: Mui.TextFieldProps) => (
-  <Formik.Field component={MuiAmountField} {...props} />
-);
+export function AmountField(props: Mui.TextFieldProps) {
+  return <Formik.Field component={MuiAmountField} {...props} />;
+}
 
-export const MuiAmountField = ({
+export function MuiAmountField({
   label,
   form: { handleChange, handleBlur, isSubmitting, touched, errors, values },
   field,
@@ -16,7 +16,7 @@ export const MuiAmountField = ({
   onChange,
   disabled,
   ...props
-}: Formik.FieldProps & Mui.TextFieldProps) => {
+}: Formik.FieldProps & Mui.TextFieldProps) {
   const error = Boolean(errors[field.name] && touched[field.name]);
   return (
     <Components.Form.FieldLabel error={error} label={label}>
@@ -43,7 +43,7 @@ export const MuiAmountField = ({
       />
     </Components.Form.FieldLabel>
   );
-};
+}
 
 export const AmountFormatCustom = React.forwardRef<
   NumberFormat.NumericFormatProps,

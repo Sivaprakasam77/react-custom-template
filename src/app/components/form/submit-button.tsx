@@ -1,7 +1,7 @@
 import * as MuiLab from "@mui/lab";
 import * as Formik from "formik";
 
-export const SubmitButton = (props: MuiLab.LoadingButtonProps) => {
+export function SubmitButton(props: MuiLab.LoadingButtonProps) {
   const formikHelpers = Formik.useFormikContext();
   return (
     <MuiLab.LoadingButton
@@ -13,4 +13,4 @@ export const SubmitButton = (props: MuiLab.LoadingButtonProps) => {
       {...props}
     />
   );
-};
+}

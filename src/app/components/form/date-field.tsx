@@ -4,21 +4,23 @@
 // import * as MuiDate from "@mui/x-date-pickers";
 // import * as Components from "src/app/components";
 
-// export const DateTimePicker = ({
+// export function DateTimePicker({
 //   dateOnly,
 //   ...props
-// }: dateTimePicker.Props & { dateOnly?: boolean }) => (
-//   <Formik.Field
-//     component={dateOnly ? FormikMuiDatePicker : FormikMuiDateTimePicker}
-//     {...props}
-//   />
-// );
+// }: dateTimePicker.Props & { dateOnly?: boolean }) {
+//   return (
+//     <Formik.Field
+//       component={dateOnly ? FormikMuiDatePicker : FormikMuiDateTimePicker}
+//       {...props}
+//     />
+//   );
+// }
 
-// export const FormikMuiDatePicker = ({
+// export function FormikMuiDatePicker({
 //   label,
 //   size,
 //   ...props
-// }: FormikMuiPickers.DatePickerProps) => {
+// }: FormikMuiPickers.DatePickerProps) {
 //   const {
 //     form: { errors, touched },
 //     field: { name },
@@ -48,13 +50,13 @@
 //       />
 //     </Components.Form.FieldLabel>
 //   );
-// };
+// }
 
-// export const FormikMuiDateTimePicker = ({
+// export function FormikMuiDateTimePicker({
 //   label,
 //   size,
 //   ...props
-// }: FormikMuiPickers.DateTimePickerProps) => {
+// }: FormikMuiPickers.DateTimePickerProps) {
 //   const {
 //     form: { errors, touched },
 //     field: { name },
@@ -87,7 +89,7 @@
 //       />
 //     </Components.Form.FieldLabel>
 //   );
-// };
+// }
 
 // export declare namespace dateTimePicker {
 //   export type Props = Required<

@@ -6,12 +6,12 @@ import * as Formik from "formik";
 import * as Mui from "@mui/material";
 import * as MuiIcons from "@mui/icons-material";
 
-export const RichTextEditor = ({
+export function RichTextEditor({
   name,
   label,
   toolbar,
 }: RichTextEditorProps &
-  Mui.TextFieldProps & { toolbar?: object | undefined }) => {
+  Mui.TextFieldProps & { toolbar?: object | undefined }) {
   const { values, errors, touched, setFieldValue } = Formik.useFormikContext<{
     [key: string]: string;
   }>();
@@ -20,16 +20,19 @@ export const RichTextEditor = ({
     EditorState.createEmpty()
   );
 
-  const handleChange = (value: EditorState) => {
-    setEditorState(value);
-    const rteContent = convertToRaw(value.getCurrentContent());
-    const stringContent = JSON.stringify(rteContent);
-    setFieldValue(name, rteContent?.blocks?.[0]?.text ? stringContent : "");
-  };
-  const handleClear = () => {
+  const handleChange = React.useCallback(
+    (value: EditorState) => {
+      setEditorState(value);
+      const rteContent = convertToRaw(value.getCurrentContent());
+      const stringContent = JSON.stringify(rteContent);
+      setFieldValue(name, rteContent?.blocks?.[0]?.text ? stringContent : "");
+    },
+    [name]
+  );
+  const handleClear = React.useCallback(() => {
     setEditorState(EditorState.createEmpty());
     setFieldValue(name, "");
-  };
+  }, [name]);
   const error = Boolean(errors[name] && touched[name]);
 
   React.useEffect(() => {
@@ -114,7 +117,7 @@ export const RichTextEditor = ({
       )}
     </Mui.Stack>
   );
-};
+}
 
 interface RichTextEditorProps {
   name: string;

@@ -1,10 +1,9 @@
 import * as Mui from "@mui/material";
-import * as MuiIcons from "@mui/icons-material";
 import * as Formik from "formik";
 import * as React from "react";
 import * as Components from "src/app/components";
 
-export const RatingButton = ({
+export function RatingButton({
   count,
   name,
   label,
@@ -16,12 +15,15 @@ export const RatingButton = ({
   label?: React.ReactNode;
   filledIcon: React.ReactNode;
   outlinedIcon: React.ReactNode;
-}) => {
+}) {
   const { values, touched, errors, setFieldValue } = Formik.useFormikContext<{
     [key: string]: number;
   }>();
   const error = Boolean(errors[name] && touched[name]);
-  const handleClick = (index: number) => setFieldValue(name, index);
+  const handleClick = React.useCallback(
+    (index: number) => setFieldValue(name, index),
+    [name]
+  );
 
   return (
     <Components.Form.FieldLabel label={label} error={error}>
@@ -39,4 +41,4 @@ export const RatingButton = ({
       </Mui.Stack>
     </Components.Form.FieldLabel>
   );
-};
+}
