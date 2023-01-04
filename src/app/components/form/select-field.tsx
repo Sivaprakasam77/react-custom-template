@@ -2,17 +2,17 @@ import * as Formik from "formik";
 import * as Mui from "@mui/material";
 import * as Components from "src/app/components";
 
-export function SelectField(props: Mui.SelectProps) {
-  return <Formik.Field component={MuiSelectField} {...props} />;
-}
+export const SelectField = (props: Mui.SelectProps) => (
+  <Formik.Field component={MuiSelectField} {...props} />
+);
 
-export function MuiSelectField({
+export const MuiSelectField = ({
   label,
   form: { handleChange, handleBlur, isSubmitting, touched, errors, values },
   field,
   onChange,
   ...props
-}: Formik.FieldProps & Mui.SelectProps) {
+}: Formik.FieldProps & Mui.SelectProps) => {
   const error = Boolean(errors[field.name] && touched[field.name]);
   return (
     <Components.Form.FieldLabel error={error} label={label}>
@@ -45,4 +45,4 @@ export function MuiSelectField({
       </Mui.FormHelperText>
     </Components.Form.FieldLabel>
   );
-}
+};

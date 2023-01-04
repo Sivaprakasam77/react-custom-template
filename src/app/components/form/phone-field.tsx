@@ -6,7 +6,11 @@ import * as Constants from "src/constants";
 import * as Components from "src/app/components";
 import * as Contexts from "src/app/contexts";
 
-export function PhoneField({ label, disabled, ...props }: Mui.TextFieldProps) {
+export const PhoneField = ({
+  label,
+  disabled,
+  ...props
+}: Mui.TextFieldProps) => {
   const user = React.useContext(Contexts.UserContext);
   const { values, errors, touched, setFieldValue, isSubmitting } =
     Formik.useFormikContext<{ [key: string]: string }>();
@@ -17,15 +21,6 @@ export function PhoneField({ label, disabled, ...props }: Mui.TextFieldProps) {
   );
   const name = props.name as string;
   const error = Boolean(errors[name] && touched[name]);
-
-  const handelChange = React.useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>) =>
-      setFieldValue(
-        props.name as string,
-        (countryCode + event.target.value) as string
-      ),
-    [props.name]
-  );
 
   React.useEffect(() => {
     if (
@@ -99,18 +94,20 @@ export function PhoneField({ label, disabled, ...props }: Mui.TextFieldProps) {
               PhoneNumberFormat as unknown as React.ElementType<Mui.InputBaseComponentProps>,
           }}
           value={values[props.name as string]?.replace(countryCode, "")}
-          onChange={handelChange}
+          onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+            setFieldValue(
+              props.name as string,
+              (countryCode + event.target.value) as string
+            )
+          }
         />
       </Mui.Stack>
-      <Mui.FormHelperText
-        error={error}
-        sx={{ visibility: error ? "visible" : "none" }}
-      >
-        {errors[name]}
+      <Mui.FormHelperText error={error}>
+        <>{error && errors[name]}</>
       </Mui.FormHelperText>
     </Components.Form.FieldLabel>
   );
-}
+};
 
 export const PhoneNumberFormat = React.forwardRef<
   NumberFormat.NumericFormatProps,

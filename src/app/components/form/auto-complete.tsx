@@ -2,17 +2,15 @@ import * as Formik from "formik";
 import * as Mui from "@mui/material";
 import * as Components from "src/app/components";
 
-export function AutoCompleteField(
+export const AutoCompleteField = (
   props: Mui.AutocompleteProps<any, boolean, boolean, boolean> & {
     FontColor?: boolean;
     label: any;
     name: any;
   }
-) {
-  return <Formik.Field component={MuiAutoComplete} {...props} />;
-}
+) => <Formik.Field component={MuiAutoComplete} {...props} />;
 
-export function MuiAutoComplete({
+export const MuiAutoComplete = ({
   label,
   form: { setFieldValue, isSubmitting, touched, errors, values },
   field,
@@ -21,7 +19,7 @@ export function MuiAutoComplete({
 }: Formik.FieldProps &
   Mui.AutocompleteProps<any, boolean, boolean, boolean> & {
     label: any;
-  }) {
+  }) => {
   const error = Boolean(errors[field.name] && touched[field.name]);
 
   return (
@@ -60,4 +58,4 @@ export function MuiAutoComplete({
       )}
     </Components.Form.FieldLabel>
   );
-}
+};

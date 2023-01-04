@@ -1,76 +1,78 @@
 import Numeral from "numeral";
+import React from "react";
 
 // Check is integer
-export function isInt(value: any) {
+export const isInt = (value: any) => {
   if (isNaN(value)) {
     return false;
   }
   var x = parseFloat(value);
   return (x | 0) === x;
-}
+};
 
 // Advanced formater
-export function Format({ number, fix, type, coin, negative }: format.price) {
-  const fixedLength = 6;
-  const numLength = Math.floor(+(number || 0)).toString().length;
-  const totalnNumLength =
-    (+(number || 0) * 1)
-      .toString()
-      .match(/\.[0-9]{0,}/g)?.[0]
-      ?.replace(".", "")?.length || 0;
-  const length =
-    totalnNumLength <= fixedLength
-      ? totalnNumLength
-      : numLength >= 4
-      ? 2
-      : fixedLength - numLength;
-  return (
-    <>
-      {`${
-        type &&
-        ({
-          coin: "",
-          number: "",
-          amount: "$",
-          percentage: "",
-        }[type] ||
-          type)
-      } ${Numeral(
-        parseFloat(
-          number
-            ? number <= 0 && !negative
-              ? `0`
-              : `${number}`.match(
-                  new RegExp(`^-?\\d+(?:\.\\d{0,${fix || length}})?`)
-                )?.[0] || `0`
-            : `0`
-        )
-      ).format(`0,0.${new Array(fix || length).fill("0").join("")}`)} ${
-        type &&
-        ({
-          coin: coin,
-          number: "",
-          amount: "",
-          percentage: "%",
-        }[type] ||
-          type)
-      }`.trim()}
-    </>
-  );
-}
+export const Format = React.memo(
+  ({ number, fix, type, coin, negative }: format.price) => {
+    const fixedLength = 6;
+    const numLength = Math.floor(+(number || 0)).toString().length;
+    const totalnNumLength =
+      (+(number || 0) * 1)
+        .toString()
+        .match(/\.[0-9]{0,}/g)?.[0]
+        ?.replace(".", "")?.length || 0;
+    const length =
+      totalnNumLength <= fixedLength
+        ? totalnNumLength
+        : numLength >= 4
+        ? 2
+        : fixedLength - numLength;
+    return (
+      <>
+        {`${
+          type &&
+          ({
+            coin: "",
+            number: "",
+            amount: "$",
+            percentage: "",
+          }[type] ||
+            type)
+        } ${Numeral(
+          parseFloat(
+            number
+              ? number <= 0 && !negative
+                ? `0`
+                : `${number}`.match(
+                    new RegExp(`^-?\\d+(?:\.\\d{0,${fix || length}})?`)
+                  )?.[0] || `0`
+              : `0`
+          )
+        ).format(`0,0.${new Array(fix || length).fill("0").join("")}`)} ${
+          type &&
+          ({
+            coin: coin,
+            number: "",
+            amount: "",
+            percentage: "%",
+          }[type] ||
+            type)
+        }`.trim()}
+      </>
+    );
+  }
+);
 
 // Time formater
-export function formatTime(time: string) {
-  return new Date(time).toLocaleString("en-US", {
+export const formatTime = (time: string) =>
+  new Date(time).toLocaleString("en-US", {
     month: "short",
     day: "numeric",
     hour: "numeric",
     minute: "numeric",
   });
-}
 
 // Date formater
-export function formatDate(date: Date) {
+export const formatDate = (date: Date) => {
   var d = new Date(date),
     month = "" + (d.getMonth() + 1),
     day = "" + d.getDate(),
@@ -80,7 +82,7 @@ export function formatDate(date: Date) {
   if (day.length < 2) day = "0" + day;
 
   return [year, month, day].join("-");
-}
+};
 
 export declare namespace format {
   export interface price {

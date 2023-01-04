@@ -1,42 +1,42 @@
 import * as Mui from "@mui/material";
 import * as MuiIcons from "@mui/icons-material";
 
-export function FullView({
+export const FullView = ({
   onClick,
-  ...props
-}: Pick<Mui.AvatarProps, "src"> & Pick<Mui.IconButtonProps, "onClick">) {
-  return (
-    <Mui.Card
-      elevation={5}
-      sx={{
-        borderRadius: 2,
-        position: "fixed",
-        top: "50%",
-        left: "50%",
-        transform: "translate(-50%,-50%)",
-        width: "100vw",
-        height: "100vh",
-        zIndex: (theme) => theme.zIndex.appBar + 1,
-        objectFit: "contain",
-      }}
+  sources,
+}: { sources: string[] } & Pick<Mui.IconButtonProps, "onClick">) => (
+  <Mui.Card
+    elevation={5}
+    sx={{
+      borderRadius: 2,
+      position: "fixed",
+      top: "50%",
+      left: "50%",
+      transform: "translate(-50%,-50%)",
+      width: "100vw",
+      height: "100vh",
+      zIndex: (theme) => theme.zIndex.appBar + 1,
+      objectFit: "contain",
+    }}
+  >
+    <Mui.Stack
+      alignItems="center"
+      component={Mui.CardContent}
+      sx={{ position: "relative", background: `#00000090`, px: 0 }}
     >
-      <Mui.Stack
-        alignItems="center"
-        component={Mui.CardContent}
-        sx={{ position: "relative", background: `#00000090`, px: 0 }}
+      <Mui.IconButton
+        disableRipple
+        sx={{
+          position: "absolute",
+          top: 10,
+          right: 10,
+          bgcolor: "background.default",
+        }}
+        onClick={onClick}
       >
-        <Mui.IconButton
-          disableRipple
-          sx={{
-            position: "absolute",
-            top: 10,
-            right: 10,
-            bgcolor: "background.default",
-          }}
-          onClick={onClick}
-        >
-          <MuiIcons.Close />
-        </Mui.IconButton>
+        <MuiIcons.Close />
+      </Mui.IconButton>
+      {sources?.map((src) => (
         <Mui.CardMedia
           component="img"
           sx={{
@@ -45,9 +45,9 @@ export function FullView({
             height: "95vh",
             objectFit: "contain",
           }}
-          {...props}
+          src={src}
         />
-      </Mui.Stack>
-    </Mui.Card>
-  );
-}
+      ))}
+    </Mui.Stack>
+  </Mui.Card>
+);

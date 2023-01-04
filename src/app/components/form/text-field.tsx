@@ -4,21 +4,19 @@ import * as MuiIcons from "@mui/icons-material";
 import React from "react";
 import * as Components from "src/app/components";
 
-export function FormField(props: Mui.TextFieldProps) {
-  return (
-    <Formik.Field
-      component={props.type === "password" ? MuiPasswordField : MuiTextField}
-      {...props}
-    />
-  );
-}
+export const FormField = (props: Mui.TextFieldProps) => (
+  <Formik.Field
+    component={props.type === "password" ? MuiPasswordField : MuiTextField}
+    {...props}
+  />
+);
 
-export function MuiTextField({
+export const MuiTextField = ({
   label,
   form: { handleChange, handleBlur, touched, errors, values, isSubmitting },
   field,
   ...props
-}: Formik.FieldProps & Mui.TextFieldProps) {
+}: Formik.FieldProps & Mui.TextFieldProps) => {
   const error = Boolean(errors[field.name] && touched[field.name]);
   return (
     <Components.Form.FieldLabel error={error} label={label}>
@@ -37,18 +35,21 @@ export function MuiTextField({
       />
     </Components.Form.FieldLabel>
   );
-}
+};
 
-export function MuiPasswordField({
+export const MuiPasswordField = ({
   label,
   type,
   form: { handleChange, handleBlur, isSubmitting, touched, errors, values },
   field,
   ...props
-}: Formik.FieldProps & Mui.TextFieldProps) {
+}: Formik.FieldProps & Mui.TextFieldProps) => {
   const error = Boolean(errors[field.name] && touched[field.name]);
   const [visible, setVisible] = React.useState(false);
-  const handleVisible = React.useCallback(() => setVisible(!visible), []);
+  const handleVisible = React.useCallback(
+    () => setVisible(!visible),
+    [field.name]
+  );
   return (
     <Components.Form.FieldLabel error={error} label={label}>
       <Mui.TextField
@@ -76,4 +77,4 @@ export function MuiPasswordField({
       />
     </Components.Form.FieldLabel>
   );
-}
+};

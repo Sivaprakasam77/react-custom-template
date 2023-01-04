@@ -15,14 +15,14 @@ const Transition = React.forwardRef(
   )
 );
 
-export function Dialog({
+export const Dialog = ({
   children,
   icon,
   ...props
 }: Partial<Mui.DialogProps> & { icon?: boolean } & Pick<
     Mui.SlideProps,
     "direction"
-  >) {
+  >) => {
   const [open, setOpen] = React.useState(true);
   const isMobile = Mui.useMediaQuery(Mui.useTheme().breakpoints.down("md"));
   const navigate = Router.useNavigate();
@@ -66,4 +66,4 @@ export function Dialog({
       {children}
     </Mui.Dialog>
   );
-}
+};

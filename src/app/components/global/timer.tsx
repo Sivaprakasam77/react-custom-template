@@ -1,11 +1,11 @@
 import * as Mui from "@mui/material";
 import * as React from "react";
 
-export function Timer({
+export const Timer = ({
   time,
   children,
   ...props
-}: { time: string | number } & Mui.TypographyProps) {
+}: { time: string | number } & Mui.TypographyProps) => {
   const [timeRemain, setTimeRemian] = React.useState("00:00:00");
   React.useEffect(() => {
     const id = setInterval(() => {
@@ -30,4 +30,4 @@ export function Timer({
       {timeRemain === "00:00:00" ? "Time Out" : timeRemain}
     </Mui.Typography>
   );
-}
+};

@@ -3,7 +3,7 @@ import * as Formik from "formik";
 import * as React from "react";
 import * as Components from "src/app/components";
 
-export function RatingButton({
+export const RatingButton = ({
   count,
   name,
   label,
@@ -15,7 +15,7 @@ export function RatingButton({
   label?: React.ReactNode;
   filledIcon: React.ReactNode;
   outlinedIcon: React.ReactNode;
-}) {
+}) => {
   const { values, touched, errors, setFieldValue } = Formik.useFormikContext<{
     [key: string]: number;
   }>();
@@ -39,6 +39,9 @@ export function RatingButton({
           </Mui.IconButton>
         ))}
       </Mui.Stack>
+      <Mui.FormHelperText error={error}>
+        <>{error && errors[name]}</>
+      </Mui.FormHelperText>
     </Components.Form.FieldLabel>
   );
-}
+};
