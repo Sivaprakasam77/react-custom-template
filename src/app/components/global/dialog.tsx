@@ -26,10 +26,10 @@ export const Dialog = ({
   const [open, setOpen] = React.useState(true);
   const isMobile = Mui.useMediaQuery(Mui.useTheme().breakpoints.down("md"));
   const navigate = Router.useNavigate();
-  const handleClose = () => {
+  const handleClose = React.useCallback(() => {
     setOpen(false);
     setTimeout(() => navigate(-1), 500);
-  };
+  }, []);
   return (
     <Mui.Dialog
       fullScreen={isMobile}

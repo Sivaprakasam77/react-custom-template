@@ -102,11 +102,8 @@ export const PhoneField = ({
           }
         />
       </Mui.Stack>
-      <Mui.FormHelperText
-        error={error}
-        sx={{ visibility: error ? "visible" : "none" }}
-      >
-        {errors[name]}
+      <Mui.FormHelperText error={error}>
+        <>{error && errors[name]}</>
       </Mui.FormHelperText>
     </Components.Form.FieldLabel>
   );

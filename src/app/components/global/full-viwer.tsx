@@ -3,8 +3,8 @@ import * as MuiIcons from "@mui/icons-material";
 
 export const FullView = ({
   onClick,
-  ...props
-}: Pick<Mui.AvatarProps, "src"> & Pick<Mui.IconButtonProps, "onClick">) => (
+  sources,
+}: { sources: string[] } & Pick<Mui.IconButtonProps, "onClick">) => (
   <Mui.Card
     elevation={5}
     sx={{
@@ -36,16 +36,18 @@ export const FullView = ({
       >
         <MuiIcons.Close />
       </Mui.IconButton>
-      <Mui.CardMedia
-        component="img"
-        sx={{
-          borderRadius: 2,
-          width: "99vw",
-          height: "95vh",
-          objectFit: "contain",
-        }}
-        {...props}
-      />
+      {sources?.map((src) => (
+        <Mui.CardMedia
+          component="img"
+          sx={{
+            borderRadius: 2,
+            width: "99vw",
+            height: "95vh",
+            objectFit: "contain",
+          }}
+          src={src}
+        />
+      ))}
     </Mui.Stack>
   </Mui.Card>
 );

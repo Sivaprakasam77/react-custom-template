@@ -15,7 +15,10 @@ export const MuiRadioButton = ({
   size,
 }: Formik.FieldProps & Mui.TextFieldProps & { radioValues: string[] }) => {
   const error = Boolean(errors[field.name] && touched[field.name]);
-  const handleValue = (value: string) => setFieldValue(field.name, value);
+  const handleValue = React.useCallback(
+    (value: string) => setFieldValue(field.name, value),
+    [field.name]
+  );
 
   return (
     <Components.Form.FieldLabel error={error} label={label}>

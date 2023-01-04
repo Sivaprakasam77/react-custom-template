@@ -33,5 +33,23 @@ export const useUtils = () => {
     );
   };
 
-  return { contentCopy, useDataURLFile };
+  // Focusing elemnt
+  const toFocus = (element: HTMLElement | null) => {
+    if (element) {
+      element.focus();
+      element.scrollIntoView({ block: "center" });
+    }
+  };
+
+  // To convert file to Base64
+  const toBase64 = (file: Blob) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = (error) => reject(error);
+    });
+  };
+
+  return { contentCopy, useDataURLFile, toFocus, toBase64 };
 };

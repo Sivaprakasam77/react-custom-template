@@ -27,12 +27,12 @@ const rotateSize = (width: number, height: number, rotation: number) => {
   };
 };
 
-export async function getCroppedImg(
+export const getCroppedImg = async (
   imageSrc: any,
   pixelCrop: any,
   rotation = 0,
   flip = { horizontal: false, vertical: false }
-) {
+) => {
   const image: HTMLImageElement = (await createImage(
     imageSrc
   )) as unknown as HTMLImageElement;
@@ -83,7 +83,7 @@ export async function getCroppedImg(
 
   // As Base64 string
   return canvas.toDataURL("image/jpeg");
-}
+};
 
 export const ImageCropper = React.memo(
   ({ imageSrc, save, cancel, width = 450, height = 290 }: cropperProps) => {
@@ -101,7 +101,7 @@ export const ImageCropper = React.memo(
       []
     );
 
-    const showCroppedImage = async () => {
+    const showCroppedImage = React.useCallback(async () => {
       setLoading(true);
       try {
         const croppedImage = await getCroppedImg(
@@ -115,7 +115,7 @@ export const ImageCropper = React.memo(
       } catch (e) {
         console.error(e);
       }
-    };
+    }, []);
 
     return (
       <Components.Global.Dialog open={Boolean(imageSrc)} onClose={cancel}>

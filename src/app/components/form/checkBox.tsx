@@ -23,10 +23,7 @@ export const MuiCheckBox = ({
         label={label as string}
         disabled={disabled}
       />
-      <Mui.FormHelperText
-        error={error}
-        sx={{ display: error ? "flex" : "none" }}
-      >
+      <Mui.FormHelperText error={error}>
         <>{error && errors[field.name]}</>
       </Mui.FormHelperText>
     </Mui.Stack>

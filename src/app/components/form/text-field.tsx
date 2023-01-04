@@ -46,7 +46,10 @@ export const MuiPasswordField = ({
 }: Formik.FieldProps & Mui.TextFieldProps) => {
   const error = Boolean(errors[field.name] && touched[field.name]);
   const [visible, setVisible] = React.useState(false);
-  const handleVisible = () => setVisible(!visible);
+  const handleVisible = React.useCallback(
+    () => setVisible(!visible),
+    [field.name]
+  );
   return (
     <Components.Form.FieldLabel error={error} label={label}>
       <Mui.TextField

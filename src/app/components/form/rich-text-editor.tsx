@@ -15,22 +15,24 @@ export const RichTextEditor = ({
   const { values, errors, touched, setFieldValue } = Formik.useFormikContext<{
     [key: string]: string;
   }>();
-
   const [editorState, setEditorState] = React.useState(() =>
     EditorState.createEmpty()
   );
+  const error = Boolean(errors[name] && touched[name]);
 
-  const handleChange = (value: EditorState) => {
-    setEditorState(value);
-    const rteContent = convertToRaw(value.getCurrentContent());
-    const stringContent = JSON.stringify(rteContent);
-    setFieldValue(name, rteContent?.blocks?.[0]?.text ? stringContent : "");
-  };
-  const handleClear = () => {
+  const handleChange = React.useCallback(
+    (value: EditorState) => {
+      setEditorState(value);
+      const rteContent = convertToRaw(value.getCurrentContent());
+      const stringContent = JSON.stringify(rteContent);
+      setFieldValue(name, rteContent?.blocks?.[0]?.text ? stringContent : "");
+    },
+    [name]
+  );
+  const handleClear = React.useCallback(() => {
     setEditorState(EditorState.createEmpty());
     setFieldValue(name, "");
-  };
-  const error = Boolean(errors[name] && touched[name]);
+  }, [name]);
 
   React.useEffect(() => {
     if (values[name] === "") handleClear();
@@ -107,11 +109,9 @@ export const RichTextEditor = ({
           ]}
         />
       </Mui.Box>
-      {error && (
-        <Mui.Typography color="error" variant="caption">
-          {errors[name]}
-        </Mui.Typography>
-      )}
+      <Mui.FormHelperText error={error}>
+        <>{error && errors[name]}</>
+      </Mui.FormHelperText>
     </Mui.Stack>
   );
 };
