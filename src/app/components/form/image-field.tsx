@@ -40,6 +40,15 @@ export const ImageField = React.memo(
       [values[name]?.length]
     );
 
+    const images = React.useMemo(
+      () =>
+        (typeof values[name] === "string"
+          ? [values[name]]
+          : values[name]
+        ).flat(),
+      [values[name]]
+    );
+
     const handleOnChange = React.useCallback(
       async (e: React.ChangeEvent<HTMLInputElement>) => {
         if (enableCropper && !enableMultiple)
@@ -84,7 +93,7 @@ export const ImageField = React.memo(
       [name]
     );
 
-    const handleView = React.useCallback(() => setView(!view), [name]);
+    const handleView = () => setView(!view);
 
     const onSave = React.useCallback(
       (img: string) => {
@@ -125,7 +134,7 @@ export const ImageField = React.memo(
             {enableAvatar && !enableMultiple ? (
               <Mui.Avatar
                 src={
-                  values[name]?.[0] ||
+                  images[0] ||
                   `https://avatars.dicebear.com/api/initials/${initialName}.svg`
                 }
                 sx={{
@@ -143,24 +152,41 @@ export const ImageField = React.memo(
                 }}
               />
             ) : (
-              values[name]?.slice(0, maxImageLength).map((src, index) => (
+              images?.slice(0, maxImageLength).map((src, index) => (
                 <Mui.Box
-                  sx={{ position: "relative", float: "left" }}
+                  sx={{
+                    position: "relative",
+                    float: "left",
+                    width: "100%",
+                    height: "100%",
+                  }}
                   key={index}
                 >
-                  <Mui.Avatar
-                    src={src}
+                  <Mui.CardMedia
+                    component="img"
+                    id={name}
+                    src={
+                      src ||
+                      `https://avatars.dicebear.com/api/initials/${initialName}.svg`
+                    }
                     sx={{
                       cursor: "pointer",
                       textAlign: "center",
-                      borderRadius: 0,
+                      borderRadius: 2,
                       objectFit: "cover",
                       boxShadow: values[name] && "0px 0px 10px #00000050",
-                      width: (width as number) / (widthAlign || 1),
-                      height: (height as number) / (heightAlign || 1),
+                      width:
+                        typeof values[name] === "string"
+                          ? width
+                          : (width as number) / (widthAlign || 1),
+                      height:
+                        typeof values[name] === "string"
+                          ? height
+                          : (height as number) / (heightAlign || 1),
                     }}
                   />
-                  {values[name].length > maxImageLength &&
+                  {typeof values[name] !== "string" &&
+                    values[name].length > maxImageLength &&
                     index === maxImageLength - 1 && (
                       <Mui.Stack
                         alignItems="center"
@@ -170,8 +196,14 @@ export const ImageField = React.memo(
                           top: 0,
                           bgcolor: "#00000090",
                           color: "#fff",
-                          width: (width as number) / (widthAlign || 1),
-                          height: (height as number) / (heightAlign || 1),
+                          width:
+                            width === "string"
+                              ? width
+                              : (width as number) / (widthAlign || 1),
+                          height:
+                            height === "string"
+                              ? height
+                              : (height as number) / (heightAlign || 1),
                         }}
                       >
                         <Mui.Typography variant="body1">{`+${
@@ -201,13 +233,11 @@ export const ImageField = React.memo(
             }}
           />
           {view && values[name]?.length && (
-            <Components.Global.FullView
-              onClick={handleView}
-              sources={values[name]}
-            />
+            <Components.Global.FullView onClick={handleView} sources={images} />
           )}
         </Mui.Box>
         <Components.Global.ImageCropper
+          key={name}
           imageSrc={imageSrc}
           save={onSave}
           cancel={onCancel}

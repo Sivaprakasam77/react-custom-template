@@ -129,5 +129,39 @@ export const useFirestore = <T>(silent?: boolean) => {
     return result;
   };
 
-  return { loading, add, get, set, update };
+  // Delete document by id
+  const deleteDoc = async (collectionName: string, docId: string) => {
+    import.meta.env.MODE === "development" &&
+      console.info(`${collectionName}/${docId} input`);
+    const collection = FirebaseFirestore.collection(
+      firestore,
+      pathModifier(collectionName)
+    );
+    setLoading(true);
+    const result = await FirebaseFirestore.deleteDoc(
+      FirebaseFirestore.doc(collection, docId)
+    )
+      .then((res) => {
+        import.meta.env.MODE === "development" &&
+          console.info(`${collectionName}/${docId} input`, res);
+        !silent &&
+          handler({
+            message: "Doc deleted",
+            variant: "success",
+          });
+        return res;
+      })
+      .catch((e) => {
+        !silent &&
+          handler({
+            message: e.message.replace("Firebase :", ""),
+            variant: "error",
+          });
+        return e;
+      });
+    setLoading(false);
+    return result;
+  };
+
+  return { loading, add, get, set, update, deleteDoc };
 };

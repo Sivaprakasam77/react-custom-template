@@ -10,14 +10,13 @@ const Transition = React.forwardRef(
       children: React.ReactElement<any, any>;
     },
     ref: React.Ref<unknown>
-  ) => (
-    <Mui.Slide direction="up" ref={ref} {...props} mountOnEnter unmountOnExit />
-  )
+  ) => <Mui.Slide ref={ref} {...props} mountOnEnter unmountOnExit />
 );
 
 export const Dialog = ({
   children,
   icon,
+  direction = "up",
   ...props
 }: Partial<Mui.DialogProps> & { icon?: boolean } & Pick<
     Mui.SlideProps,
@@ -39,7 +38,7 @@ export const Dialog = ({
       onClose={handleClose}
       open={open}
       {...props}
-      TransitionProps={{ direction: props.direction } as TransitionProps}
+      TransitionProps={{ direction } as TransitionProps}
       sx={{
         "& .MuiBackdrop-root": {
           backgroundColor: "#000000ea",

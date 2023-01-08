@@ -52,6 +52,9 @@ export const Request = (
     ...requestOptions,
     headers: {
       "Content-Type": contentType,
+      ...(typeof options === "string"
+        ? { Authorization: localStorage.getItem("accessToken") || "" }
+        : {}),
       ...headers,
     },
     data,
@@ -66,7 +69,7 @@ export const Request = (
 
       // Store access token for Login option
       if (typeof options === "string" && options.includes("login")) {
-        window.accessToken = res.data.accessToken;
+        localStorage.setItem("accessToken", res.data.accessToken);
       }
 
       // Retrun Reponse

@@ -12,7 +12,11 @@ export const UserProvider = ({ children }: children) => {
   const [state, updateState] = React.useState(false);
   const [country, setCountry] = React.useState("");
   const { data: user, isFetching: loading } = Api.Server.useRequest(
-    [window.accessToken || "", state as unknown as string],
+    [
+      "getProfile",
+      localStorage.getItem("accessToken") || "",
+      state as unknown as string,
+    ],
     "getProfile"
   );
 

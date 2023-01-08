@@ -2,10 +2,13 @@ import * as Mui from "@mui/material";
 import * as Themes from "src/theme";
 import React from "react";
 
+// Available Themes
+const themes = ["light", "dark"];
+
 // Context for theme change
 export const ThemeContext = React.createContext<{
   mode: string;
-  changeMode: (_mode: string) => void;
+  changeMode: () => void;
 }>({
   mode: localStorage.getItem("theme") || "light",
   changeMode: () => {},
@@ -17,7 +20,13 @@ export const Main = ({ children }: children) => {
     localStorage.getItem("theme") || "light"
   );
 
-  const changeMode = (_mode: string) => setMode(_mode);
+  const changeMode = () => {
+    setMode((prev) => {
+      let themeMode = themes[themes.indexOf(prev) + 1] || themes[0];
+      localStorage.setItem("theme", themeMode);
+      return themeMode;
+    });
+  };
 
   let theme = React.useMemo(
     () =>

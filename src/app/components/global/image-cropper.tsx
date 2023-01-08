@@ -114,8 +114,9 @@ export const ImageCropper = React.memo(
         cancel();
       } catch (e) {
         console.error(e);
+        setLoading(false);
       }
-    }, []);
+    }, [imageSrc, croppedAreaPixels, rotation]);
 
     return (
       <Components.Global.Dialog open={Boolean(imageSrc)} onClose={cancel}>
@@ -150,10 +151,10 @@ export const ImageCropper = React.memo(
         <Mui.DialogActions sx={{ justifyContent: "center" }}>
           <Mui.Stack
             direction={{ xs: "column", sm: "row" }}
-            spacing={1}
+            spacing={2}
             sx={{ width: "100%", p: 2, overflow: "visible" }}
           >
-            <Mui.Stack sx={{ width: "100%" }}>
+            <Mui.Stack spacing={2} sx={{ width: "100%" }}>
               <Mui.Stack
                 spacing={2}
                 direction="row"
