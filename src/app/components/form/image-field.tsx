@@ -40,14 +40,7 @@ export const ImageField = React.memo(
       [values[name]?.length]
     );
 
-    const images = React.useMemo(
-      () =>
-        (typeof values[name] === "string"
-          ? [values[name]]
-          : values[name]
-        ).flat(),
-      [values[name]]
-    );
+    const images = React.useMemo(() => [values[name]].flat(), [values[name]]);
 
     const handleOnChange = React.useCallback(
       async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -56,11 +49,15 @@ export const ImageField = React.memo(
         else
           setFieldValue(
             name,
-            await Promise.all(
-              [...(e.target as unknown as { files: Blob[] })?.files]?.map(
-                (file) => toBase64(file)
-              )
-            )
+            enableMultiple
+              ? await Promise.all(
+                  [...(e.target as unknown as { files: Blob[] })?.files]?.map(
+                    (file) => toBase64(file)
+                  )
+                )
+              : await toBase64(
+                  (e.target as unknown as { files: Blob[] })?.files?.[0]
+                )
           );
       },
       [name]
@@ -75,11 +72,17 @@ export const ImageField = React.memo(
         else
           setFieldValue(
             name,
-            await Promise.all(
-              [
-                ...(event.dataTransfer as unknown as { files: Blob[] })?.files,
-              ]?.map((file) => toBase64(file))
-            )
+            enableMultiple
+              ? await Promise.all(
+                  [
+                    ...(event.dataTransfer as unknown as { files: Blob[] })
+                      ?.files,
+                  ]?.map((file) => toBase64(file))
+                )
+              : await toBase64(
+                  (event.dataTransfer as unknown as { files: Blob[] })
+                    ?.files?.[0]
+                )
           );
       },
       [name]
@@ -135,7 +138,9 @@ export const ImageField = React.memo(
               <Mui.Avatar
                 src={
                   images[0] ||
-                  `https://avatars.dicebear.com/api/initials/${initialName}.svg`
+                  `https://avatars.dicebear.com/api/initials/${
+                    initialName || "Add"
+                  }.svg`
                 }
                 sx={{
                   cursor: "pointer",
@@ -167,7 +172,9 @@ export const ImageField = React.memo(
                     id={name}
                     src={
                       src ||
-                      `https://avatars.dicebear.com/api/initials/${initialName}.svg`
+                      `https://avatars.dicebear.com/api/initials/${
+                        initialName || "Add"
+                      }.svg`
                     }
                     sx={{
                       cursor: "pointer",
