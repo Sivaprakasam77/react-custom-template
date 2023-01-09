@@ -47,7 +47,7 @@ export const MuiPasswordField = ({
   const error = Boolean(errors[field.name] && touched[field.name]);
   const [visible, setVisible] = React.useState(false);
   const handleVisible = React.useCallback(
-    () => setVisible(!visible),
+    () => setVisible((prev) => !prev),
     [field.name]
   );
   return (
