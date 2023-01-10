@@ -1,4 +1,6 @@
 import copy from "copy-to-clipboard";
+import React from "react";
+import ReactDOM from "react-dom/server";
 import * as Providers from "src/app/providers";
 
 // Some cusotm utils for app
@@ -51,5 +53,48 @@ export const useUtils = () => {
     });
   };
 
-  return { contentCopy, useDataURLFile, toFocus, toBase64 };
+  // To covert text to JSON
+  const toCSVJson = (data: string) =>
+    data
+      .split("\n")
+      .filter(Boolean)
+      .map((subData: string, i: number, allData: string[]) =>
+        Object.assign(
+          {},
+          ...subData.split("\t").map((sub, _index) => ({
+            [`${allData[0].split("\t")[_index]}`]: sub,
+          }))
+        )
+      );
+
+  // to CSV file convertor
+  const toCSVFile = (
+    titles: string,
+    data: Record<string, string | React.ReactNode | number>[]
+  ) =>
+    `data:text/csv;charset=utf-8,${encodeURI(
+      [
+        titles,
+        data.map((e) => {
+          return Object.values(e)
+            .map((value) =>
+              ReactDOM.renderToString(value as any)
+                .replaceAll(",", "")
+                .replaceAll(/\<.*?\>/gm, "")
+            )
+            .toString();
+        }),
+      ]
+        .flat()
+        .join("\r\n")
+    )}`;
+
+  return {
+    contentCopy,
+    useDataURLFile,
+    toFocus,
+    toBase64,
+    toCSVJson,
+    toCSVFile,
+  };
 };

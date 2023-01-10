@@ -5,4 +5,6 @@ export * from "./formater";
 export * from "./full-viwer";
 export * from "./global-loader";
 export * from "./image-cropper";
+export * from "./responsive-table";
+export * from "./stack-label";
 export * from "./timer";

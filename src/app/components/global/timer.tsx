@@ -4,12 +4,15 @@ import * as React from "react";
 export const Timer = ({
   time,
   children,
+  increase,
   ...props
-}: { time: string | number } & Mui.TypographyProps) => {
+}: { time: string | number; increase?: boolean } & Mui.TypographyProps) => {
   const [timeRemain, setTimeRemian] = React.useState("00:00:00");
   React.useEffect(() => {
     const id = setInterval(() => {
-      const difference = new Date(time).getTime() - new Date().getTime();
+      const difference = increase
+        ? new Date().getTime() - new Date(time).getTime()
+        : new Date(time).getTime() - new Date().getTime();
       const days = Math.floor(difference / (1000 * 60 * 60 * 24));
       const hrs = Math.floor((difference / (1000 * 60 * 60)) % 24);
       const min = Math.floor((difference / 1000 / 60) % 60);

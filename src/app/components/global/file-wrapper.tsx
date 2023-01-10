@@ -3,7 +3,7 @@ import * as Mui from "@mui/material";
 export const FileWrapper = ({
   children,
   ...props
-}: Required<Pick<Mui.TextFieldProps, "name" | "onChange" | "disabled">> &
+}: Pick<Mui.TextFieldProps, "name" | "onChange" | "disabled" | "sx"> &
   children) => (
   <>
     <input hidden accept="image/*" id={props.name} type="file" {...props} />

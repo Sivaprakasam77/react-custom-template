@@ -68,7 +68,7 @@ export const Request = (
         );
 
       // Store access token for Login option
-      if (typeof options === "string" && options.includes("login")) {
+      if (typeof options === "string" && option.includes("login")) {
         localStorage.setItem("accessToken", res.data.accessToken);
       }
 

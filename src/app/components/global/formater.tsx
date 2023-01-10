@@ -36,7 +36,7 @@ export const Format = React.memo(
             amount: "$",
             percentage: "",
           }[type] ||
-            type)
+            "")
         } ${Numeral(
           parseFloat(
             number
@@ -55,7 +55,7 @@ export const Format = React.memo(
             amount: "",
             percentage: "%",
           }[type] ||
-            type)
+            "")
         }`.trim()}
       </>
     );

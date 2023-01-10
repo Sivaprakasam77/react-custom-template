@@ -17,6 +17,7 @@ export const DateTimePicker = ({
 export const FormikMuiDatePicker = ({
   label,
   size,
+  shouldDisableDate,
   ...props
 }: FormikMuiPickers.DatePickerProps) => {
   const {
@@ -28,7 +29,16 @@ export const FormikMuiDatePicker = ({
     <Components.Form.FieldLabel error={error} label={label}>
       <MuiDate.DatePicker
         {...(FormikMuiPickers.fieldToDatePicker(props) as any)}
-        shouldDisableDate
+        shouldDisableDate={
+          shouldDisableDate
+            ? (dateParam: string) => {
+                return new Date().toLocaleDateString(dateParam) ===
+                  new Date().toLocaleDateString()
+                  ? true
+                  : false;
+              }
+            : undefined
+        }
         renderInput={(props) => (
           <Mui.TextField
             size={size}
