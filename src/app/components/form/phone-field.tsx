@@ -5,28 +5,32 @@ import React from "react";
 import * as Constants from "src/constants";
 import * as Components from "src/app/components";
 import * as Contexts from "src/app/contexts";
+import * as Hooks from "src/app/hooks";
 
 export const PhoneField = ({
   label,
   disabled,
   ...props
 }: Mui.TextFieldProps) => {
+  const { nestedParser } = Hooks.Utils.useUtils();
   const user = React.useContext(Contexts.UserContext);
   const { values, errors, touched, setFieldValue, isSubmitting } =
     Formik.useFormikContext<{ [key: string]: string }>();
   const [countryCode, setCountryCode] = React.useState<string>(
     Constants.COUNTRY_FLAG_CODE.find(({ dial_code }) =>
-      values[props.name as string]?.includes(dial_code)
+      nestedParser(props.name as string, values)?.includes(dial_code)
     )?.dial_code || "+91"
   );
   const name = props.name as string;
-  const error = Boolean(errors[name] && touched[name]);
+  const error = Boolean(
+    nestedParser(name, errors) && nestedParser(name, touched)
+  );
 
   React.useEffect(() => {
     if (
       !Boolean(
         Constants.COUNTRY_FLAG_CODE.find(({ dial_code }) =>
-          values[props.name as string]?.includes(dial_code)
+          nestedParser(props.name as string, values)?.includes(dial_code)
         )?.dial_code
       )
     ) {
@@ -93,7 +97,10 @@ export const PhoneField = ({
             inputComponent:
               PhoneNumberFormat as unknown as React.ElementType<Mui.InputBaseComponentProps>,
           }}
-          value={values[props.name as string]?.replace(countryCode, "")}
+          value={nestedParser(props.name as string, values)?.replace(
+            countryCode,
+            ""
+          )}
           onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
             setFieldValue(
               props.name as string,
@@ -103,7 +110,7 @@ export const PhoneField = ({
         />
       </Mui.Stack>
       <Mui.FormHelperText error={error}>
-        <>{error && errors[name]}</>
+        <>{error && nestedParser(name, errors)}</>
       </Mui.FormHelperText>
     </Components.Form.FieldLabel>
   );

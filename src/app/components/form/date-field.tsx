@@ -3,6 +3,7 @@ import * as FormikMuiPickers from "formik-material-ui-pickers";
 import * as Mui from "@mui/material";
 import * as MuiDate from "@mui/x-date-pickers";
 import * as Components from "src/app/components";
+import * as Hooks from "src/app/hooks";
 
 export const DateTimePicker = ({
   dateOnly,
@@ -20,11 +21,14 @@ export const FormikMuiDatePicker = ({
   shouldDisableDate,
   ...props
 }: FormikMuiPickers.DatePickerProps) => {
+  const { nestedParser } = Hooks.Utils.useUtils();
   const {
     form: { errors, touched },
     field: { name },
   } = props;
-  const error = Boolean(errors[name] && touched[name]);
+  const error = Boolean(
+    nestedParser(name, errors) && nestedParser(name, touched)
+  );
   return (
     <Components.Form.FieldLabel error={error} label={label}>
       <MuiDate.DatePicker
@@ -45,7 +49,7 @@ export const FormikMuiDatePicker = ({
             {...props}
             fullWidth
             error={error}
-            helperText={<>{error && errors[name]}</>}
+            helperText={<>{error && nestedParser(name, errors)}</>}
             onKeyDown={(e) => e.preventDefault()}
           />
         )}
@@ -65,11 +69,14 @@ export const FormikMuiDateTimePicker = ({
   size,
   ...props
 }: FormikMuiPickers.DateTimePickerProps) => {
+  const { nestedParser } = Hooks.Utils.useUtils();
   const {
     form: { errors, touched },
     field: { name },
   } = props;
-  const error = Boolean(errors[name] && touched[name]);
+  const error = Boolean(
+    nestedParser(name, errors) && nestedParser(name, touched)
+  );
   return (
     <Components.Form.FieldLabel error={error} label={label}>
       <MuiDate.DateTimePicker
@@ -80,7 +87,7 @@ export const FormikMuiDateTimePicker = ({
             {...props}
             fullWidth
             error={error}
-            helperText={<>{error && errors[name]}</>}
+            helperText={<>{error && nestedParser(name, errors)}</>}
             onKeyDown={(e) => e.preventDefault()}
           />
         )}

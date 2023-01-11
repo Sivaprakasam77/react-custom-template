@@ -1,6 +1,7 @@
 import * as Mui from "@mui/material";
 import React from "react";
 import * as Components from "src/app/components";
+import * as Hooks from "src/app/hooks";
 
 export const StackLabel = ({
   direction,
@@ -12,37 +13,40 @@ export const StackLabel = ({
   node,
   valBold,
   time,
-}: stack.Props) => (
-  <Mui.Stack
-    direction={direction || "column"}
-    justifyContent="space-between"
-    alignItems={direction === "row" ? "center" : undefined}
-    spacing={1}
-    width="100%"
-  >
-    <Mui.Typography
-      variant={medium ? "body2" : "caption"}
-      color={titleColor || "text.secondary"}
-      noWrap
+}: stack.Props) => {
+  const { formatTimeString } = Hooks.Utils.useUtils();
+  return (
+    <Mui.Stack
+      direction={direction || "column"}
+      justifyContent="space-between"
+      alignItems={direction === "row" ? "center" : undefined}
+      spacing={1}
+      width="100%"
     >
-      {title}
-    </Mui.Typography>
-    <Mui.Typography
-      variant="body2"
-      color={`${labelColor}.main`}
-      noWrap
-      fontWeight={valBold ? "bold" : undefined}
-    >
-      {time ? (
-        Components.Global.formatTime(label as unknown as string)
-      ) : node ? (
-        label
-      ) : (
-        <Components.Global.Format number={label as string} type="number" />
-      )}
-    </Mui.Typography>
-  </Mui.Stack>
-);
+      <Mui.Typography
+        variant={medium ? "body2" : "caption"}
+        color={titleColor || "text.secondary"}
+        noWrap
+      >
+        {title}
+      </Mui.Typography>
+      <Mui.Typography
+        variant="body2"
+        color={`${labelColor}.main`}
+        noWrap
+        fontWeight={valBold ? "bold" : undefined}
+      >
+        {time ? (
+          formatTimeString(label as unknown as string)
+        ) : node ? (
+          label
+        ) : (
+          <Components.Global.Format number={label as string} type="number" />
+        )}
+      </Mui.Typography>
+    </Mui.Stack>
+  );
+};
 
 export declare namespace stack {
   export interface Props {

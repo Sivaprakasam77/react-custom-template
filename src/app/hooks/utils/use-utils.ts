@@ -54,18 +54,34 @@ export const useUtils = () => {
   };
 
   // To covert text to JSON
-  const toCSVJson = (data: string) =>
-    data
-      .split("\n")
-      .filter(Boolean)
-      .map((subData: string, i: number, allData: string[]) =>
-        Object.assign(
-          {},
-          ...subData.split("\t").map((sub, _index) => ({
-            [`${allData[0].split("\t")[_index]}`]: sub,
-          }))
-        )
-      );
+  const toCSVJson = (csvFile: string) => {
+    const rows: string[][] = [];
+
+    var fieldRegEx = new RegExp(
+      '(?:\\s*"((?:""|[^"])*)"\\s*|\\s*((?:""|[^",\\r\\n])*(?:""|[^"\\s,\\r\\n]))?\\s*)(,|[\\r\\n]+|$)',
+      "g"
+    );
+    var row = [];
+    var currMatch = null;
+
+    while ((currMatch = fieldRegEx.exec(csvFile))) {
+      row.push([currMatch[1], currMatch[2]].join(""));
+      if (currMatch[3] != ",") {
+        rows.push(row);
+        row = [];
+      }
+      if (currMatch[3].length == 0) break;
+    }
+    return rows.slice(1).map((cells) =>
+      Object.assign(
+        {},
+        ...cells.map((cell, index) => ({
+          [rows[0][index].trim().toLowerCase().replaceAll(" ", "_")]:
+            cell.trim(),
+        }))
+      )
+    );
+  };
 
   // to CSV file convertor
   const toCSVFile = (
@@ -89,6 +105,46 @@ export const useUtils = () => {
         .join("\r\n")
     )}`;
 
+  // Time formater
+  const formatTimeString = (time: string) =>
+    new Date(time).toLocaleString("en-US", {
+      month: "short",
+      day: "numeric",
+      hour: "numeric",
+      minute: "numeric",
+    });
+
+  // Format date to string type
+  const formatDateString = (date: Date) => {
+    var d = new Date(date),
+      month = "" + (d.getMonth() + 1),
+      day = "" + d.getDate(),
+      year = d.getFullYear();
+
+    if (month.length < 2) month = "0" + month;
+    if (day.length < 2) day = "0" + day;
+
+    return [year, month, day].join("-");
+  };
+
+  // Format date string type to Date type time
+  const formatDate = (date: string) => {
+    const splitedDate = date.split("/");
+    const d = new Date();
+    d.setDate(+splitedDate[0]);
+    d.setMonth(+splitedDate[1] - 1);
+    d.setFullYear(+splitedDate[2]);
+    return d;
+  };
+
+  const nestedParser = (name: string, data: any) => {
+    let value = "";
+    name.split(".").forEach((val) => {
+      value = (value || data)[val];
+    });
+    return value;
+  };
+
   return {
     contentCopy,
     useDataURLFile,
@@ -96,5 +152,9 @@ export const useUtils = () => {
     toBase64,
     toCSVJson,
     toCSVFile,
+    formatDate,
+    formatDateString,
+    formatTimeString,
+    nestedParser,
   };
 };

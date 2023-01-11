@@ -143,6 +143,7 @@ export const ResponsiveTable = ({
 };
 
 const TableData = ({ node, ...props }: responsiveTable.Data) => {
+  const { formatTimeString } = Hooks.Utils.useUtils();
   const [open, close] = React.useState(false);
   return (
     <>
@@ -154,7 +155,7 @@ const TableData = ({ node, ...props }: responsiveTable.Data) => {
           <Mui.TableCell key={index}>
             <Mui.Typography noWrap variant="body2">
               {key === "date"
-                ? Components.Global.formatTime(value as unknown as string)
+                ? formatTimeString(value as unknown as string)
                 : value}
             </Mui.Typography>
           </Mui.TableCell>

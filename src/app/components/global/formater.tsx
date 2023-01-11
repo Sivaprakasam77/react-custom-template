@@ -62,28 +62,6 @@ export const Format = React.memo(
   }
 );
 
-// Time formater
-export const formatTime = (time: string) =>
-  new Date(time).toLocaleString("en-US", {
-    month: "short",
-    day: "numeric",
-    hour: "numeric",
-    minute: "numeric",
-  });
-
-// Date formater
-export const formatDate = (date: Date) => {
-  var d = new Date(date),
-    month = "" + (d.getMonth() + 1),
-    day = "" + d.getDate(),
-    year = d.getFullYear();
-
-  if (month.length < 2) month = "0" + month;
-  if (day.length < 2) day = "0" + day;
-
-  return [year, month, day].join("-");
-};
-
 export declare namespace format {
   export interface price {
     number?: number | string;

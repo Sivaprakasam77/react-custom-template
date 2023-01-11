@@ -3,6 +3,7 @@ import * as Mui from "@mui/material";
 import * as MuiIcons from "@mui/icons-material";
 import React from "react";
 import * as Components from "src/app/components";
+import * as Hooks from "src/app/hooks";
 
 export const FormField = (props: Mui.TextFieldProps) => (
   <Formik.Field
@@ -17,21 +18,24 @@ export const MuiTextField = ({
   field,
   ...props
 }: Formik.FieldProps & Mui.TextFieldProps) => {
-  const error = Boolean(errors[field.name] && touched[field.name]);
+  const { nestedParser } = Hooks.Utils.useUtils();
+  const error = Boolean(
+    nestedParser(field.name, errors) && nestedParser(field.name, touched)
+  );
   return (
     <Components.Form.FieldLabel error={error} label={label}>
       <Mui.TextField
         size="small"
         fullWidth
         error={error}
-        helperText={<>{error && errors[field.name]}</>}
+        helperText={<>{error && nestedParser(field.name, errors)}</>}
         disabled={isSubmitting}
         {...field}
         {...props}
         id={field.name}
         onChange={handleChange}
         onBlur={handleBlur}
-        value={values[field.name]}
+        value={nestedParser(field.name, values)}
       />
     </Components.Form.FieldLabel>
   );
