@@ -78,6 +78,14 @@ export const MuiPasswordField = ({
         onChange={handleChange}
         onBlur={handleBlur}
         value={values[field.name]}
+        onPaste={(e) => {
+          e.preventDefault();
+          return false;
+        }}
+        onCopy={(e) => {
+          e.preventDefault();
+          return false;
+        }}
       />
     </Components.Form.FieldLabel>
   );
