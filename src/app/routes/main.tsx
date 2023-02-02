@@ -2,6 +2,7 @@ import React from "react";
 import * as Router from "react-router-dom";
 import * as Components from "src/app/components";
 import * as Contexts from "src/app/contexts";
+import * as Constants from "src/constants";
 import * as Layouts from "src/app/layouts";
 
 const UsageRoutes = React.lazy(() => import("src/app/pages/usage/routes"));
@@ -9,7 +10,9 @@ const UsageRoutes = React.lazy(() => import("src/app/pages/usage/routes"));
 export const Main = () => {
   const user = React.useContext(Contexts.UserContext);
 
-  return ["US", "CA", "SG"].includes(user?.detected_country || "")
+  return Constants.API_CONFIG.blockedCountry.includes(
+    user?.detected_country || ""
+  )
     ? Router.useRoutes([
         {
           path: "*",
@@ -22,7 +25,7 @@ export const Main = () => {
           element: <Components.Templates.PageNotFound />,
         },
         {
-          path: "/*",
+          path: `${Constants.API_CONFIG.base}/*`,
           element: <Layouts.Usage.Main />,
           children: [
             {
