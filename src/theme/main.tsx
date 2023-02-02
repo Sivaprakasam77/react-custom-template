@@ -1,6 +1,8 @@
 import * as Mui from "@mui/material";
-import * as Themes from "src/theme";
 import React from "react";
+import * as Router from "react-router-dom";
+import * as Constants from "src/constants";
+import * as Themes from "src/theme";
 
 // Available Themes
 const themes = ["light", "dark"];
@@ -16,6 +18,7 @@ export const ThemeContext = React.createContext<{
 
 // Main Theme Provider
 export const Main = ({ children }: children) => {
+  const { pathname } = Router.useLocation();
   const [mode, setMode] = React.useState<string>(
     localStorage.getItem("theme") || "light"
   );
@@ -32,13 +35,15 @@ export const Main = ({ children }: children) => {
     () =>
       Mui.createTheme({
         ...Themes.Global.Components(),
-        ...{
-          light: Themes.Global.PaletteLight(),
-          dark: Themes.Global.PaletteDark(),
-        }[mode],
+        ...(pathname === Constants.API_CONFIG.base
+          ? Themes.Global.PaletteLight()
+          : {
+              light: Themes.Global.PaletteLight(),
+              dark: Themes.Global.PaletteDark(),
+            }[mode]),
         ...Themes.Global.Typography(),
       }),
-    [mode]
+    [mode, pathname]
   );
 
   return (
