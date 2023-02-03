@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite --host",
+    "prod": "vite --host --mode production",
     "build:dev": "tsc && vite build --mode development && vite preview",
     "build:prod": "tsc && vite build && vite preview",
     "deploy:rsync": "rsync -avP -e ssh dist/* USRENAME@SERVER_IP:/FOLDER_PATH_ON_SERVER",
