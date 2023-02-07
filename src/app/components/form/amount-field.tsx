@@ -56,7 +56,7 @@ export const AmountFormatCustom = React.forwardRef<
       onChange({
         target: {
           name: other.name,
-          value: values.value,
+          value: values.formattedValue,
         },
       });
     }}
