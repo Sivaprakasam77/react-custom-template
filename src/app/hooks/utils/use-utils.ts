@@ -130,11 +130,7 @@ export const useUtils = () => {
   // Format date string type to Date type time
   const formatDate = (date: string) => {
     const splitedDate = date.split("/");
-    const d = new Date();
-    d.setDate(+splitedDate[0]);
-    d.setMonth(+splitedDate[1] - 1);
-    d.setFullYear(+splitedDate[2]);
-    return d;
+    return new Date(+splitedDate[2], +splitedDate[1] - 1, +splitedDate[0]);
   };
 
   const nestedParser = (name: string, data: any) => {
