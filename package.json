@@ -15,7 +15,9 @@
     "deploy:firebase": "firebase deploy",
     "app:init": "npx cap init",
     "app:clean": "rm -rd android ios",
-    "ionic:build": "rm -rd android ios && tsc && vite build && npx cap add android && npx cap add ios"
+    "ionic:build": "rm -rd android ios && tsc && vite build && npx cap add android && npx cap add ios",
+    "storybook": "export NODE_OPTIONS=--openssl-legacy-provider && start-storybook -p 6006",
+    "build-storybook": "build-storybook"
   },
   "dependencies": {
     "@emotion/react": "^11.10.5",
@@ -43,16 +45,25 @@
     "yup": "^0.32.11"
   },
   "devDependencies": {
+    "@babel/core": "^7.21.0",
     "@capacitor/android": "^4.6.1",
     "@capacitor/cli": "^4.6.1",
     "@capacitor/core": "^4.6.1",
     "@capacitor/ios": "^4.6.1",
+    "@storybook/addon-actions": "^6.5.16",
+    "@storybook/addon-essentials": "^6.5.16",
+    "@storybook/addon-interactions": "^6.5.16",
+    "@storybook/addon-links": "^6.5.16",
+    "@storybook/builder-vite": "^0.4.2",
+    "@storybook/react": "^6.5.16",
+    "@storybook/testing-library": "^0.0.13",
     "@types/draft-js": "^0.11.10",
     "@types/numeral": "^2.0.2",
     "@types/react": "^18.0.26",
     "@types/react-dom": "^18.0.9",
     "@types/react-draft-wysiwyg": "^1.13.4",
     "@vitejs/plugin-react-swc": "^3.0.0",
+    "babel-loader": "^8.3.0",
     "typescript": "^4.9.3",
     "vite": "^4.0.0"
   }
